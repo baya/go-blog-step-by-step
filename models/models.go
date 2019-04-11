@@ -42,8 +42,9 @@ func init() {
 		host,
 		dbName))
 
+	fmt.Printf("new image")
 	if err != nil {
-		log.Println(err)
+		log.Fatalf("%v", err)
 	}
 
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {

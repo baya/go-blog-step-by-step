@@ -12,6 +12,10 @@ import (
 	"time"
 )
 
+func init(){
+	log.SetFlags(log.Ldate|log.Lshortfile)
+}
+
 func main() {
 	router := routers.InitRouter()
 
@@ -36,8 +40,6 @@ func main() {
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	log.Println("serving...")
-	<- quit
-	log.Println("try sig again...")
 	<- quit
 
 	log.Println("Shutdown Server ...")
