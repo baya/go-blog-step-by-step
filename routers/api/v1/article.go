@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-blog-step-by-step/models"
 	"go-blog-step-by-step/pkg/e"
+	"go-blog-step-by-step/pkg/logging"
 	"go-blog-step-by-step/pkg/setting"
 	"go-blog-step-by-step/pkg/util"
 	"log"
@@ -74,7 +75,7 @@ func GetArticles(c *gin.Context) {
 
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 
@@ -185,7 +186,7 @@ func EditArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 
@@ -213,7 +214,7 @@ func DeleteArticle(c *gin.Context) {
 		}
 	} else {
 		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
+			logging.Info(err.Key, err.Message)
 		}
 	}
 
