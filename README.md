@@ -128,3 +128,5 @@ mysql                    latest              7bb2586065cd        2 weeks ago    
 ```bash
 $ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=rootroot -v /data/docker-mysql:/var/lib/mysql -d mysql
 ```
+
+如果有权限的问题, 请根据自己的系统自行 google 将/data/docker-mysql 的读写权限赋予给当前用户 
