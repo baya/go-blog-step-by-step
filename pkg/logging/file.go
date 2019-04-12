@@ -2,25 +2,23 @@ package logging
 
 import (
 	"fmt"
+	"go-blog-step-by-step/pkg/setting"
 	"log"
 	"os"
 	"time"
 )
 
-var (
-	LogSavePath = "runtime/logs/"
-	LogSaveName = "log"
-	LogFileExt = "log"
-	TimeFormat = "20060102"
-)
-
 func getLogFilePath() string {
-	return fmt.Sprintf("%s", LogSavePath)
+	return fmt.Sprintf("%s%s", setting.AppSetting.RuntimeRootPath, setting.AppSetting.LogSavePath)
 }
 
 func getLogFileFullPath() string {
 	prefixPath := getLogFilePath()
-	suffixPath := fmt.Sprintf("%s%s.%s", LogSaveName, time.Now().Format(TimeFormat), LogFileExt)
+	suffixPath := fmt.Sprintf("%s%s.%s",
+		setting.AppSetting.LogSaveName,
+		time.Now().Format(setting.AppSetting.TimeFormat),
+		setting.AppSetting.LogFileExt,
+	)
 
 	return fmt.Sprintf("%s%s", prefixPath, suffixPath)
 }
@@ -34,7 +32,7 @@ func openLogFile(filePath string) *os.File {
 		log.Fatalf("Permission :%v", err)
 	}
 
-	handle, err := os.OpenFile(filePath, os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0644)
+	handle, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("Fail to OpenFile :%v", err)
 	}
@@ -42,10 +40,9 @@ func openLogFile(filePath string) *os.File {
 	return handle
 }
 
-
 func mkDir() {
 	dir, _ := os.Getwd()
-	err := os.MkdirAll(dir + "/" + getLogFilePath(), os.ModePerm)
+	err := os.MkdirAll(dir+"/"+getLogFilePath(), os.ModePerm)
 	if err != nil {
 		panic(err)
 	}

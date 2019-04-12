@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"go-blog-step-by-step/models"
+	"go-blog-step-by-step/pkg/logging"
 	"go-blog-step-by-step/pkg/setting"
 	"go-blog-step-by-step/routers"
 	"log"
@@ -17,13 +19,18 @@ func init(){
 }
 
 func main() {
+
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
+
 	router := routers.InitRouter()
 
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
 		Handler:        router,
-		ReadTimeout:    setting.ReadTimeout,
-		WriteTimeout:   setting.WriteTimeout,
+		ReadTimeout:    setting.ServerSetting.ReadTimeout,
+		WriteTimeout:   setting.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 
@@ -50,6 +57,8 @@ func main() {
 	if err := s.Shutdown(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)
 	}
+
+	models.CloseDB()
 
 	log.Println("Server exiting")
 
