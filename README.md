@@ -83,3 +83,48 @@ $ docker run --link mysql:mysql -p 8000:8848 go-blog-step-by-step
 ```bash
 $ docker exec -it your_container_name_or_id bash
 ```
+
+## 编译项目为可执行文件
+
+```bash
+$ CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-blog-step-by-step .
+```
+
+## 构建 scratch 镜像
+
+Dockerfile,
+
+```
+FROM scratch
+
+WORKDIR /Users/jim/workspace/go-blog-step-by-step
+COPY . /Users/jim/workspace/go-blog-step-by-step
+
+EXPOSE 8000
+CMD ["./go-blog-step-by-step"]
+```
+
+```bash
+$ docker build -t gin-blog-docker-scratch .
+```
+
+scratch 镜像的体积和官方 golang 镜像相比小了许多:
+
+```
+REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+go-blog-docker-scratch   latest              cd5a0703c544        5 minutes ago       54.7MB
+go-blog-step-by-step     latest              3e9ee98e356a        10 hours ago        1.03GB
+golang                   latest              1d14d4efd0a2        3 days ago          774MB
+mysql                    latest              7bb2586065cd        2 weeks ago         477MB
+```
+
+## 使用数据卷
+
+首先创建一个目录用于存放数据卷；示例目录 /data/docker-mysql, 参考: https://stackoverflow.com/questions/45122459/docker-mounts-denied-the-paths-are-not-shared-from-os-x-and-are-not-known
+在 mac 系统下需要配置 File Sharing
+
+![image](/readme_images/Snip20190412_2.png)
+
+```bash
+$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=rootroot -v /data/docker-mysql:/var/lib/mysql -d mysql
+```
