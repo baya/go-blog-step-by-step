@@ -36,3 +36,10 @@ CREATE TABLE `blog_auth`
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+ALTER TABLE `blog_tag` ADD COLUMN `deleted_on` int(11) DEFAULT NULL;
+
+ALTER TABLE `blog_article` ADD COLUMN `deleted_on` int(11) DEFAULT NULL;
+
+ALTER TABLE `blog_auth` ADD COLUMN `deleted_on` int(11) DEFAULT NULL;
+
