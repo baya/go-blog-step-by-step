@@ -43,3 +43,4 @@ ALTER TABLE `blog_article` ADD COLUMN `deleted_on` int(11) DEFAULT NULL;
 
 ALTER TABLE `blog_auth` ADD COLUMN `deleted_on` int(11) DEFAULT NULL;
 
+ALTER TABLE `blog_article` ADD COLUMN `cover_image_url` varchar(255) DEFAULT '' COMMENT '封面图片地址';

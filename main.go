@@ -6,6 +6,7 @@ import (
 	"go-blog-step-by-step/models"
 	"go-blog-step-by-step/pkg/logging"
 	"go-blog-step-by-step/pkg/setting"
+	"go-blog-step-by-step/pkg/upload"
 	"go-blog-step-by-step/routers"
 	"log"
 	"net/http"
@@ -23,6 +24,8 @@ func main() {
 	setting.Setup()
 	models.Setup()
 	logging.Setup()
+	upload.Setup()
+
 
 	router := routers.InitRouter()
 
