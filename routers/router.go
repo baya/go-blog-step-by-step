@@ -3,8 +3,10 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"go-blog-step-by-step/middleware/jwt"
+	"go-blog-step-by-step/pkg/upload"
 	"go-blog-step-by-step/routers/api"
 	"go-blog-step-by-step/routers/api/v1"
+	"net/http"
 
 	"go-blog-step-by-step/pkg/setting"
 
@@ -28,6 +30,7 @@ func InitRouter() *gin.Engine {
 		})
 	})
 
+	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
 	r.GET("/auth", api.GetAuth)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
