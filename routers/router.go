@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go-blog-step-by-step/middleware/jwt"
 	"go-blog-step-by-step/pkg/export"
+	"go-blog-step-by-step/pkg/qrcode"
 	"go-blog-step-by-step/pkg/upload"
 	"go-blog-step-by-step/routers/api"
 	"go-blog-step-by-step/routers/api/v1"
@@ -38,6 +39,7 @@ func InitRouter() *gin.Engine {
 	r.POST("/upload", api.UploadImage)
 
 	r.StaticFS("/export", http.Dir(export.GetExcelFullPath()))
+	r.StaticFS("/qrcode", http.Dir(qrcode.GetQrCodeFullPath()))
 
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(jwt.JWT())
@@ -64,8 +66,9 @@ func InitRouter() *gin.Engine {
 
 		// 导出标签
 		r.POST("/tags/export", v1.ExportTag)
-
 		r.POST("/articles/poster/generate", v1.GenerateArticlePoster)
+
+
 
 	}
 
