@@ -65,6 +65,8 @@ func InitRouter() *gin.Engine {
 		// 导出标签
 		r.POST("/tags/export", v1.ExportTag)
 
+		r.POST("/articles/poster/generate", v1.GenerateArticlePoster)
+
 	}
 
 	return r

@@ -8,6 +8,7 @@ require (
 	github.com/Unknwon/com v0.0.0-20190321035513-0fed4efef755
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/astaxie/beego v1.11.1
+	github.com/boombuler/barcode v1.0.0
 	github.com/casbin/casbin v1.8.1 // indirect
 	github.com/couchbase/go-couchbase v0.0.0-20190312181903-e0ffec020d04 // indirect
 	github.com/couchbase/gomemcached v0.0.0-20190306175622-bc10fba93c46 // indirect
