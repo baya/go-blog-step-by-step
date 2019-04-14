@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/boombuler/barcode/qr"
@@ -277,6 +278,7 @@ func GenerateArticlePoster(c *gin.Context) {
 	qr := qrcode.NewQrCode(QRCODE_URL, 300, 300, qr.M, qr.Auto) // 目前写死 gin 系列路径，可自行增加业务逻辑
 	filename, err := qrcode.GetQrCodeFileName(qr.URL)
 	if err != nil {
+		fmt.Printf("??????????%v", err)
 		appG.Response(http.StatusOK, e.ERROR_GEN_ARTICLE_POSTER_FAIL, nil)
 		return
 	}
@@ -299,6 +301,7 @@ func GenerateArticlePoster(c *gin.Context) {
 
 	_, filePath, err := articlePosterBgService.Generate()
 	if err != nil {
+		fmt.Printf("??????????+++++++++++%v", err)
 		appG.Response(http.StatusOK, e.ERROR_GEN_ARTICLE_POSTER_FAIL, nil)
 		return
 	}

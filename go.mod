@@ -23,6 +23,7 @@ require (
 	github.com/go-openapi/swag v0.18.0 // indirect
 	github.com/go-redis/redis v6.15.2+incompatible // indirect
 	github.com/gogo/protobuf v1.2.1 // indirect
+	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/gomodule/redigo v2.0.0+incompatible
@@ -46,6 +47,7 @@ require (
 	github.com/ugorji/go/codec v0.0.0-20190320090025-2dc34c0b8780 // indirect
 	github.com/wendal/errors v0.0.0-20181209125328-7f31f4b264ec // indirect
 	golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a // indirect
+	golang.org/x/image v0.0.0-20190227222117-0694c2d4d067 // indirect
 	golang.org/x/net v0.0.0-20190320064053-1272bf9dcd53 // indirect
 	golang.org/x/sync v0.0.0-20190227155943-e225da77a7e6 // indirect
 	golang.org/x/sys v0.0.0-20190318195719-6c81ef8f67ca // indirect
