@@ -13,41 +13,46 @@ type Tag struct {
 	State int `json:"state"`
 }
 
-func GetTags(pageNum int, pageSize int, maps interface {}) (tags []Tag) {
-	db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags)
+func GetTags(pageNum int, pageSize int, maps interface {}) (tags []Tag, err error) {
+	err = db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags).Error
 
-	return
+	return tags, err
 }
 
-func GetTagTotal(maps interface {}) (count int){
-	db.Model(&Tag{}).Where(maps).Count(&count)
+func GetTagTotal(maps interface {}) (count int, err error){
+	err = db.Model(&Tag{}).Where(maps).Count(&count).Error
 
-	return
+	return count, err
 }
 
-func ExistTagByName(name string) bool {
+func ExistTagByName(name string) (bool, error) {
 	var tag Tag
-	db.Select("id").Where("name = ?", name).First(&tag)
-	if tag.ID > 0 {
-		return true
+	err := db.Select("id").Where("name = ?", name).First(&tag).Error
+
+	if err != nil{
+		return false, err
 	}
 
-	return false
+	if tag.ID > 0 {
+		return true, nil
+	}
+
+	return false, nil
 }
 
-func ExistTagByID(id int) bool {
+func ExistTagByID(id int) (bool, error) {
 	var tag Tag
 
 	err := db.Select("id").Where("id = ?", id).First(&tag).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return false
+		return false, err
 	}
 
 	if tag.ID > 0 {
-		return true
+		return true, nil
 	}
 
-	return false
+	return false, nil
 
 }
 
@@ -59,14 +64,14 @@ func EditTag(id int, data interface{}) error {
 	return nil
 }
 
-func AddTag(name string, state int, createdBy string) bool{
-	db.Create(&Tag {
+func AddTag(name string, state int, createdBy string) error {
+	err := db.Create(&Tag {
 		Name : name,
 		State : state,
 		CreatedBy : createdBy,
-	})
+	}).Error
 
-	return true
+	return err
 }
 
 func DeleteTag(id int) error {

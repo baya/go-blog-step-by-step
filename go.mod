@@ -3,6 +3,7 @@ module go-blog-step-by-step
 go 1.12
 
 require (
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/Unknwon/com v0.0.0-20190321035513-0fed4efef755
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
@@ -40,6 +41,7 @@ require (
 	github.com/swaggo/gin-swagger v1.1.0
 	github.com/swaggo/swag v1.4.1
 	github.com/syndtr/goleveldb v1.0.0 // indirect
+	github.com/tealeg/xlsx v1.0.3
 	github.com/ugorji/go/codec v0.0.0-20190320090025-2dc34c0b8780 // indirect
 	github.com/wendal/errors v0.0.0-20181209125328-7f31f4b264ec // indirect
 	golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a // indirect

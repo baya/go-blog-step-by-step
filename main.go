@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go-blog-step-by-step/models"
+	"go-blog-step-by-step/pkg/gredis"
 	"go-blog-step-by-step/pkg/logging"
 	"go-blog-step-by-step/pkg/setting"
 	"go-blog-step-by-step/pkg/upload"
@@ -25,6 +26,7 @@ func main() {
 	models.Setup()
 	logging.Setup()
 	upload.Setup()
+	gredis.Setup()
 
 
 	router := routers.InitRouter()

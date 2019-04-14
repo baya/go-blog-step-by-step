@@ -10,7 +10,6 @@ import (
 	"go-blog-step-by-step/pkg/setting"
 	"go-blog-step-by-step/pkg/util"
 	"go-blog-step-by-step/service/article_service"
-	"log"
 	"net/http"
 )
 
@@ -105,6 +104,7 @@ func GetArticles(c *gin.Context) {
 
 //新增文章
 func AddArticle(c *gin.Context) {
+	appG := app.Gin{c}
 	tagId := com.StrTo(c.Query("tag_id")).MustInt()
 	title := c.Query("title")
 	desc := c.Query("desc")
@@ -121,34 +121,40 @@ func AddArticle(c *gin.Context) {
 	valid.Required(createdBy, "created_by").Message("创建人不能为空")
 	valid.Range(state, 0, 1, "state").Message("状态只允许0或1")
 
-	code := e.INVALID_PARAMS
-	if ! valid.HasErrors() {
-		if models.ExistTagByID(tagId) {
-			data := make(map[string]interface {})
-			data["tag_id"] = tagId
-			data["title"] = title
-			data["desc"] = desc
-			data["content"] = content
-			data["created_by"] = createdBy
-			data["state"] = state
-			data["cover_image_url"] = coverImageUrl
 
-			models.AddArticle(data)
-			code = e.SUCCESS
-		} else {
-			code = e.ERROR_NOT_EXIST_TAG
-		}
-	} else {
-		for _, err := range valid.Errors {
-			log.Printf("err.key: %s, err.message: %s", err.Key, err.Message)
-		}
+	if valid.HasErrors(){
+		app.MarkErrors(valid.Errors)
+		appG.Response(http.StatusOK, e.INVALID_PARAMS, nil)
+
+		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code" : code,
-		"msg" : e.GetMsg(code),
-		"data" : make(map[string]interface{}),
-	})
+	exist, _ := models.ExistTagByID(tagId)
+
+	if !exist {
+		appG.Response(http.StatusOK, e.ERROR_NOT_EXIST_TAG, nil)
+		return
+	}
+
+	data := make(map[string]interface {})
+
+	data["tag_id"] = tagId
+	data["title"] = title
+	data["desc"] = desc
+	data["content"] = content
+	data["created_by"] = createdBy
+	data["state"] = state
+	data["cover_image_url"] = coverImageUrl
+
+	err := models.AddArticle(data)
+
+	if err != nil {
+		appG.Response(http.StatusOK, e.ADD_TAG_FAIL, nil)
+		return
+	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, data)
+
 }
 
 //修改文章
@@ -193,7 +199,7 @@ func EditArticle(c *gin.Context) {
 		return
 	}
 
-	exist = models.ExistTagByID(tagId)
+	exist, _ = models.ExistTagByID(tagId)
 
 	if !exist {
 		appG.Response(http.StatusOK, e.ERROR_CHECK_EXIST_ARTICLE_FAIL, nil)

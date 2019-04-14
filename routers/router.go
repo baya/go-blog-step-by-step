@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"go-blog-step-by-step/middleware/jwt"
+	"go-blog-step-by-step/pkg/export"
 	"go-blog-step-by-step/pkg/upload"
 	"go-blog-step-by-step/routers/api"
 	"go-blog-step-by-step/routers/api/v1"
@@ -36,6 +37,7 @@ func InitRouter() *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/upload", api.UploadImage)
 
+	r.StaticFS("/export", http.Dir(export.GetExcelFullPath()))
 
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(jwt.JWT())
@@ -59,6 +61,10 @@ func InitRouter() *gin.Engine {
 		apiv1.PUT("/articles/:id", v1.EditArticle)
 		//删除指定文章
 		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
+
+		// 导出标签
+		r.POST("/tags/export", v1.ExportTag)
+
 	}
 
 	return r
